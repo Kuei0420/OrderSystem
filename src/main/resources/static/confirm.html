@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>豐原汕頭牛肉店點餐系統</title>
+<link rel="stylesheet" href="/css/menu.css">
+</head>
+<body>
+	<h1>點餐確認</h1>
+	<div id="tableNumberDisplay"></div>
+	<table>
+		<tr>
+			<th>項次</th>
+			<th>餐點</th>
+			<th>數量</th>
+			<th>價格</th>
+		</tr>
+		<tbody id="menuItems">
+			<!-- 這裡會使用 JavaScript 動態產生餐點明細 -->
+		</tbody>
+	</table>
+
+	<div class="checkout">
+		<div class="checkout-total">
+			總計金額: <span id="totalAmount">0</span> 元
+		</div>
+		<button onclick="goBack()" type="button">上一頁</button>
+		<span class="button-spacing"></span>
+		<button onclick="confirmOrder()" type="button">確認</button>
+	</div>
+
+	<script>
+        // 取得從 menu.html 傳遞的餐點資訊
+        var params = new URLSearchParams(window.location.search);
+        var menuItems = [];
+        
+        // 迭代 URL 參數，處理陣列參數
+        for (var [key, value] of params) {
+            if (key === "name") {
+                var index = params.getAll("name").indexOf(value);
+                var quantity = parseInt(params.getAll("quantity")[index]);
+                var price = parseInt(params.getAll("price")[index]);
+                
+                if (quantity > 0) {
+                    menuItems.push({
+                        name: value,
+                        quantity: quantity,
+                        price: price
+                    });
+                }
+            }
+        }
+        
+        // 在頁面載入時呼叫 renderMenuItems() 函式，進行餐點明細的渲染
+        renderMenuItems();
+        displayTableNumber();
+        
+        function renderMenuItems() {
+            var menuItemsTable = document.getElementById('menuItems');
+            var totalAmount = 0;
+            
+            // 清空餐點明細
+            menuItemsTable.innerHTML = '';
+            
+            // 逐一渲染餐點明細
+            var num = 1;
+            menuItems.forEach(function (item) {
+                var row = document.createElement('tr');
+                var numberCell = document.createElement('td');
+                var nameCell = document.createElement('td');
+                var quantityCell = document.createElement('td');
+                var priceCell = document.createElement('td');
+                numberCell.textContent = num;
+                nameCell.textContent = item.name;
+                quantityCell.textContent = item.quantity;
+                priceCell.textContent = item.price * item.quantity;
+
+                row.appendChild(numberCell);
+                row.appendChild(nameCell);
+                row.appendChild(quantityCell);
+                row.appendChild(priceCell);
+                num =num + 1 ;
+                menuItemsTable.appendChild(row);
+                
+                totalAmount += item.price * item.quantity;
+            });
+            
+            // 更新總計金額
+            document.getElementById('totalAmount').textContent = totalAmount;
+        }
+        
+        function displayTableNumber() {
+        	var params = new URLSearchParams(window.location.search);
+        	var tableNumber = params.get('tableNumber');
+            document.getElementById('tableNumberDisplay').textContent = '桌號：' + tableNumber;
+        }
+        
+        function confirmOrder() {
+            // 實作與後端的溝通，將購物車資料傳遞給後端並更新進DB
+            // ...
+        }
+        
+        function goBack() {
+            history.back();
+        }
+    </script>
+</body>
+</html>

@@ -15,7 +15,7 @@ import org.springframework.data.annotation.CreatedDate;
 import lombok.Data;
 
 @Data
-@Entity(name = "oreder_list")
+@Entity(name = "order_list")
 public class OrderList {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)

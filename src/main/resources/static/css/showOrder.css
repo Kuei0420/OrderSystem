@@ -1,0 +1,37 @@
+body {
+	font-family: Arial, sans-serif;
+}
+
+.order-container {
+	width: 300px;
+	padding: 20px;
+	margin-bottom: 20px;
+	border: 1px solid #ccc;
+	background-color: #f2f2f2;
+}
+
+.order-number {
+	font-weight: bold;
+	margin-bottom: 10px;
+}
+
+.order-details {
+	margin-bottom: 10px;
+}
+
+.order-time {
+	font-size: 12px;
+	color: gray;
+}
+
+.order-table {
+	font-weight: bold;
+}
+
+.order-menu {
+	margin-bottom: 10px;
+}
+
+.order-remark {
+	font-style: italic;
+}

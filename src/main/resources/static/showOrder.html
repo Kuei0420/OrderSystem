@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>豐原汕頭牛肉店點餐系統</title>
+<link rel="stylesheet" href="/css/showOrder.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+</head>
+<body>
+	<h1>訂單資訊</h1>
+
+	<div id="ordersContainer"></div>
+
+	<script>
+		$(document).ready(function() {
+			fetchOrders();
+		});
+
+		function fetchOrders() {
+			$.ajax({
+				url : "/api/orders",
+				type : "GET",
+				dataType : "json",
+				success : function(response) {
+					renderOrders(response.orders);
+				},
+				error : function() {
+					console.log("發生錯誤");
+				}
+			});
+		}
+
+		function renderOrders(orders) {
+			var ordersContainer = $("#ordersContainer");
+			ordersContainer.empty();
+
+			// 依照時間排序訂單
+			orders.sort(function(a, b) {
+				return new Date(b.time) - new Date(a.time);
+			});
+
+			orders.forEach(function(order) {
+				var orderContainer = $("<div>").addClass("order-container");
+				var orderNumber = $("<div>").addClass("order-number").text(
+						"訂單編號: " + order.number);
+				var orderDetails = $("<div>").addClass("order-details");
+				var orderTime = $("<div>").addClass("order-time").text(
+						"訂單時間: " + order.time);
+				var orderTable = $("<div>").addClass("order-table").text(
+						"桌號: " + order.table);
+				var orderMenu = $("<div>").addClass("order-menu").text(
+						"餐點內容: " + order.menu);
+				var orderRemark = $("<div>").addClass("order-remark").text(
+						"備註: " + order.remark);
+
+				orderDetails.append(orderTime, orderTable, orderMenu);
+				orderContainer.append(orderNumber, orderDetails, orderRemark);
+				ordersContainer.append(orderContainer);
+			});
+		}
+	</script>
+</body>
+</html>

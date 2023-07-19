@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>豐原汕頭牛肉店點餐系統</title>
+<link rel="stylesheet" href="/css/menu.css">
+<script
+	src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+</head>
+<body>
+	<h1>菜單項目</h1>
+	<div class="table-number">
+		桌號：<input id="tableNumberInput" type="number" min="1">
+	</div>
+	<table id="menuTable">
+		<tr>
+			<th>餐點名稱</th>
+			<th>價格</th>
+			<th>數量</th>
+		</tr>
+		<!--
+        
+            
+            <td class="menu-item-name">炒麵(大)</td>
+            <td class="menu-item-price">160</td>
+            <td class="menu-item-quantity">
+                <button onclick="decrementQuantity(this)" type="button">-</button>
+                <input type="number" min="0" value="0">
+                <button onclick="incrementQuantity(this)" type="button">+</button>
+            </td>
+        </tr>
+        -->
+
+	</table>
+
+	<div class="checkout">
+		<div class="checkout-total">
+			總計金額: <span id="totalAmount">0</span> 元
+		</div>
+
+		<button onclick="proceedToConfirmation()" type="button">下一步</button>
+	</div>
+
+	<script>
+		window.addEventListener('DOMContentLoaded', function() {
+			// 呼叫fetchMenuData()函式以觸發菜單資料的獲取和渲染
+			fetchMenuData();
+		});
+
+		function fetchMenuData() {
+			// 使用AJAX發送POST請求
+			$
+					.ajax({
+						url : "/menu",
+						type : "POST",
+						dataType : "json",
+						success : function(response) {
+
+							console.log("成功");
+							// 在這裡處理回應資料
+							// 使用Thymeleaf將資料動態渲染到頁面上的指定區域
+							// 例如：
+							console.log(response);
+							var menuItems = response.menuItems;
+
+							console.log(menuItems);
+							response
+									.forEach(function(item) {
+										var row = "<tr>"
+												+ "<td class ='menu-item-name'>"
+												+ item.menuName
+												+ "</td>"
+												+ "<td class='menu-item-price'>"
+												+ item.price
+												+ "</td>"
+												+ "<td class='menu-item-quantity'>"
+												+ "<button onclick='decrementQuantity(this)' type='button'>-</button>"
+												+ "<input type='number' min='0' value='" + 0 + "'>"
+												+ "<button onclick='incrementQuantity(this)' type='button'>+</button>"
+												+ "</td>";
+										$("#menuTable").append(row);
+									});
+						},
+						error : function() {
+							console.log("發生錯誤");
+						}
+					});
+		}
+
+		function incrementQuantity(button) {
+			var quantityInput = button.parentNode.querySelector('input');
+			var quantity = parseInt(quantityInput.value);
+			quantityInput.value = quantity + 1;
+			updateTotal();
+			updateItemColor(quantityInput);
+		}
+
+		function decrementQuantity(button) {
+			var quantityInput = button.parentNode.querySelector('input');
+			var quantity = parseInt(quantityInput.value);
+			if (quantity > 0) {
+				quantityInput.value = quantity - 1;
+				updateTotal();
+				updateItemColor(quantityInput);
+			}
+		}
+
+		function updateItemColor(quantityInput) {
+			var menuItemName = quantityInput.parentNode.parentNode
+					.querySelector('.menu-item-name');
+			var quantity = parseInt(quantityInput.value);
+
+			if (quantity > 0) {
+				menuItemName.classList.add('has-quantity');
+			} else {
+				menuItemName.classList.remove('has-quantity');
+			}
+		}
+
+		function updateTotal() {
+			var totalAmount = 0;
+			var priceElements = document
+					.getElementsByClassName('menu-item-price');
+			var quantityInputs = document
+					.querySelectorAll('.menu-item-quantity input');
+
+			for (var i = 0; i < priceElements.length; i++) {
+				var price = parseInt(priceElements[i].textContent);
+				var quantity = parseInt(quantityInputs[i].value);
+				totalAmount += price * quantity;
+			}
+
+			document.getElementById('totalAmount').textContent = totalAmount;
+		}
+
+		function proceedToConfirmation() {
+			// 實作前往確認頁的邏輯，例如將購物車資料傳遞到下一個頁面
+			// 以下是使用 JavaScript 動態生成 URL 參數並導向到 confirm.html 頁面的範例
+			var menuItems = []; // 儲存菜單項目的陣列，可依實際情況調整資料結構
+
+			// 獲取菜單項目資料，並將其加入到 menuItems 陣列中
+			var menuItemNames = document.querySelectorAll('.menu-item-name');
+			var menuItemQuantities = document
+					.querySelectorAll('.menu-item-quantity input');
+			var menuItemPrices = document.querySelectorAll('.menu-item-price');
+
+			for (var i = 0; i < menuItemNames.length; i++) {
+				var name = menuItemNames[i].textContent;
+				var quantity = parseInt(menuItemQuantities[i].value);
+				var price = parseInt(menuItemPrices[i].textContent);
+
+				// 根據實際資料結構調整以下部分
+				menuItems.push({
+					name : name,
+					quantity : quantity,
+					price : price
+				});
+			}
+
+			// 建立 URL 參數字串
+			var params = new URLSearchParams();
+			var tableNumber = document.getElementById('tableNumberInput').value;
+
+			params.append('tableNumber', tableNumber);
+			for (var j = 0; j < menuItems.length; j++) {
+				var item = menuItems[j];
+				params.append('name', item.name);
+				params.append('quantity', item.quantity);
+				params.append('price', item.price);
+			}
+
+			// 將 URL 參數字串附加到 confirm.html 的 URL 中
+			var confirmUrl = 'confirm.html?' + params.toString();
+
+			// 導向到 confirm.html 頁面
+			window.location.href = confirmUrl;
+		}
+	</script>
+</body>
+</html>

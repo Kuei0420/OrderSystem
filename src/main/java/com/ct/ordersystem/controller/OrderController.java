@@ -6,8 +6,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.ct.ordersystem.dto.OrderCustRequestBody;
@@ -23,7 +25,15 @@ public class OrderController {
 
 	@Autowired
 	OrderService orderService;
-
+	
+	@PostMapping("/findAllOrder")
+	@ResponseBody
+	public List<OrderCust> findAllOrder(Model model) {
+		
+		List<OrderCust> orderCustList =orderService.findAllOrderCust();
+		return orderCustList;
+	}
+	
 	@PostMapping(value = "/addOrderCust", produces = MediaType.APPLICATION_JSON_VALUE)
 	public OrderCust addOrderCust(@RequestBody OrderCustRequestBody orderCustRequestBody) {
 		logger.info("orderCustRequestBody:{}",orderCustRequestBody);

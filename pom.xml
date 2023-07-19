@@ -27,17 +27,22 @@
 			<artifactId>spring-boot-starter-test</artifactId>
 			<scope>test</scope>
 		</dependency>
-		<!-- For DataBase connection -->
+		<!-- For MySQL DataBase connection 
 		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 			<scope>runtime</scope>
-		</dependency>
+		</dependency>-->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-
+    	<!-- Oracle JDBC 驅動 -->
+	    <dependency>
+	        <groupId>com.oracle.database.jdbc</groupId>
+	        <artifactId>ojdbc8</artifactId>
+	    </dependency>
+	    
 		<!-- For DataBase connection -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -52,7 +57,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
 		</dependency>
-
+		<!-- Thymeleaf 相關依賴 -->
+	    <dependency>
+	        <groupId>org.springframework.boot</groupId>
+	        <artifactId>spring-boot-starter-thymeleaf</artifactId>
+	    </dependency>
 	</dependencies>
 
 	<build>
