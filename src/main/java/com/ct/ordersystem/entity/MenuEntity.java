@@ -12,14 +12,12 @@ import lombok.Data;
 
 @Data
 @Entity(name = "menu")
-public class Menu {
+public class MenuEntity {
 
 	@Id
-//	@SequenceGenerator(name = "mySeqGen", sequenceName = "menuSeq", allocationSize = 1)
-//	@GeneratedValue(generator = "mySeqGen")
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "menu_id")
-	private int menuId;
+	private Integer menuId;
 
 	@Column(name = "menu_name")
 	private String menuName;
@@ -28,7 +26,7 @@ public class Menu {
 	private String description;
 
 	@Column(name = "price")
-	private int price;
+	private String price;
 
 	@Column(name = "create_time")
 	@CreationTimestamp

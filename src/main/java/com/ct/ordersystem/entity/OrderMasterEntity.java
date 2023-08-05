@@ -7,40 +7,37 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.SequenceGenerator;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
-import org.springframework.data.annotation.CreatedDate;
 
 import lombok.Data;
 
 @Data
-@Entity(name = "order_cust")
-public class OrderCust {
+@Entity(name = "order_master")
+public class OrderMasterEntity {
 	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "order_cust_id")
-	private int orderCustId;
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "ORDERSEQ")
+	@SequenceGenerator(name = "ORDERSEQ", sequenceName = "ORDERSEQ", allocationSize = 1)
+	@Column(name = "order_master_id")
+	private Integer orderMaseterId;
 
 	@Column(name = "table_num")
-	private int tableNum;
-
-	@Column(name = "count")
-	private String count;
+	private String tableNum;
 
 	@Column(name = "total_price")
-	private int totalPrice;
+	private String totalPrice;
 
 	@Column(name = "status")
-	private int status;
+	private String status;
 
-	@Column(name = "create_time") 
+	@Column(name = "create_time")
 	@CreationTimestamp
 	private Date createTime;
 
 	@Column(name = "update_time")
 	@UpdateTimestamp
 	private Date updateTime;
-
 
 }

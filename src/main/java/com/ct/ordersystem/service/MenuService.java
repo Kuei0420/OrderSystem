@@ -3,17 +3,17 @@ package com.ct.ordersystem.service;
 import java.util.List;
 
 import com.ct.ordersystem.dto.MenuRequestBody;
-import com.ct.ordersystem.entity.Menu;
+import com.ct.ordersystem.entity.MenuEntity;
 
 public interface MenuService {
 	
-	void addMenu(Menu menu);
+	void addMenu(MenuEntity menu);
 	
-	List<Menu> findAllMenu();
+	List<MenuEntity> findAllMenu();
 
-	void deleteMenu(int menuId);
+	void deleteMenu(Integer menuId);
 	
-	Menu updateMenu(MenuRequestBody menuRequestBody);
+	MenuEntity updateMenu(MenuRequestBody menuRequestBody);
 	
-	Object findMenuById(int menuId);
+	Object findMenuById(Integer menuId);
 }

@@ -5,13 +5,19 @@ import lombok.Data;
 @Data
 public class OrderListRequestBody {
 
-	private int orderListId;
+	private Integer orderListId;
 	
-	private String tableNum;
+	private String orderId;
+
+	private String menuId;
 
 	private String menuName;
 
-	private int price;
+	private String count;
+	
+	private String tableNum;
 
-	private int status;
+	private String totalPrice;
+
+	private String status;
 }

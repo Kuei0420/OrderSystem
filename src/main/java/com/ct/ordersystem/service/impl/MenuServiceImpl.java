@@ -1,6 +1,6 @@
 package com.ct.ordersystem.service.impl;
 
-import java.util.Date;
+import java.awt.Menu;
 import java.util.List;
 import java.util.Optional;
 
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 
 import com.ct.ordersystem.common.utils.CommonUtils;
 import com.ct.ordersystem.dto.MenuRequestBody;
-import com.ct.ordersystem.entity.Menu;
+import com.ct.ordersystem.entity.MenuEntity;
 import com.ct.ordersystem.repository.MenuRepository;
 import com.ct.ordersystem.service.MenuService;
 
@@ -20,27 +20,27 @@ public class MenuServiceImpl implements MenuService {
 	MenuRepository menuRepo;
 
 	@Override
-	public void addMenu(Menu menu) {
+	public void addMenu(MenuEntity menu) {
 
 		menuRepo.save(menu);
 	}
 
 	@Override
-	public List<Menu> findAllMenu() {
+	public List<MenuEntity> findAllMenu() {
 
 		return menuRepo.findAll();
 
 	}
 
 	@Override
-	public void deleteMenu(int menuId) {
+	public void deleteMenu(Integer menuId) {
 		menuRepo.deleteById(menuId);
 	}
 
 	@Override
-	public Menu updateMenu(MenuRequestBody menuRequestBody) {
+	public MenuEntity updateMenu(MenuRequestBody menuRequestBody) {
 
-		Optional<Menu> menuTmp = menuRepo.findById(menuRequestBody.getMenuId());
+		Optional<MenuEntity> menuTmp = menuRepo.findById(menuRequestBody.getMenuId());
 		CommonUtils commonUtils = new CommonUtils();
 		commonUtils.copyNonNullProperties(menuRequestBody, menuTmp.get());
 		menuRepo.save(menuTmp.get());
@@ -49,7 +49,7 @@ public class MenuServiceImpl implements MenuService {
 	}
 
 	@Override
-	public Object findMenuById(int menuId) {
+	public Object findMenuById(Integer menuId) {
 		return menuRepo.findById(menuId);
 	}
 

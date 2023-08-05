@@ -3,15 +3,14 @@ package com.ct.ordersystem.dto;
 import lombok.Data;
 
 @Data
-public class OrderCustRequestBody {
+public class OrderRequestBody {
 
-	private int orderCustId;
+	private Integer orderId;
 
 	private String tableNum;
 
-	private int count;
+	private String totalPrice;
 
-	private int totalPrice;
-	
-	private int status;
+	private String status;
+
 }

@@ -1,9 +1,11 @@
 package com.ct.ordersystem.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
 
-import com.ct.ordersystem.entity.Menu;
+import com.ct.ordersystem.entity.MenuEntity;
 
-public interface MenuRepository extends JpaRepository<Menu, Integer>{
+@Repository
+public interface MenuRepository extends JpaRepository<MenuEntity, Integer>{
 
 }
